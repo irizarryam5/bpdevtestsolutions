@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Dev Test</title>	
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dark.min.css">
+		<style>
+			.container{
+				width: 100%;
+				display: flex;
+			}
+			.markup{
+				width: 50%;
+				margin: 5px;
+			}.jS{
+				float: right;
+			}.ht{
+				float: left;
+			}code{
+				height: 275px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<h1>Blueprint Dev Test Solutions</h1>
+		<h3>By: Alex Irizarry</h3>
+		<h2>1.</h2>
+		<span>Randomize the order of the following number set: 
+			"<span id="randNumSet">22, 14, 3, 4, 37, 6, 7, 81, 9, 1</span>"
+		</span>
+		<br><br>
+		<button id="randButton" type="button">Randomize</button>
+		<br><br>
+		<div class="container">
+			<div class="markup ht">HTML
+				<pre><code class="html">&lt;span&gt;Randomize the order of the following number set: 
+  "&lt;span id="randNumSet"&gt;22, 14, 3, 4, 37, 6, 7, 81, 9, 1&lt;/span&gt;"
+&lt;/span&gt;
+
+&lt;button id="randButton" type="button"&gt;Randomize&lt;/button&gt;</code></pre>
+			</div>
+			<div class="markup jS">JS<pre><code>//Array provided
+var randomArray = [22, 14, 3, 4, 37, 6, 7, 81, 9, 10];
+		
+//Fisher-Yates shuffle algorithm
+function shuffle(array){
+  var currentIndex = array.length, temporaryValue, randomIndex;
+			
+    while (0 !== currentIndex){
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+		
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+    return array;
+}
+
+document.getElementById("randButton").addEventListener("click", function(){
+  var displayString = "";
+  var randArr = shuffle(randomArray);
+			
+  for(var i=0; i < randArr.length; i++){
+    if(i<(randArr.length-1)){
+      displayString += randArr[i].toString() + ", ";
+    }else{
+      displayString += randArr[i].toString();
+    }
+  }
+  document.getElementById("randNumSet").innerHTML = displayString;
+});</pre></code>
+			</div>
+		</div>
+		<h2>2.</h2>
+		<span>"The mean of the following number set: 22, 14, 3, 4, 37, 6, 7, 81, 9, 10" = <span id="mean"></span></span>
+		<br><br>
+		<div class="container">
+			<div class="markup ht">HTML
+				<pre><code class="html">&lt;span&gt;"The mean of the following number set: 22,
+  14, 3, 4, 37, 6, 7, 81, 9, 10" = &lt;span id="mean"&gt;&lt;/span&gt;&lt;/span&gt;</code></pre>
+			</div>
+			<div class="markup jS">JS
+				<pre><code>//Array provided
+var randomArray = [22, 14, 3, 4, 37, 6, 7, 81, 9, 10];
+				
+//Returns the mean of an array of integers
+function meanOfASet(array){
+  var combinedValue = 0;
+			
+  for(var i=0; i < array.length; i++){
+    combinedValue += array[i];
+  }
+			
+  return (combinedValue/array.length);
+}
+		
+document.getElementById("mean").innerHTML = meanOfASet(randomArray);</pre></code>
+			</div>
+		</div>
+		
+		<h2>3.</h2>
+		<span>Table generated from data via <a>http://bptest.net/devtest/data.php</a>:</span>
+		<br><br>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Gender</th>
+				</tr>
+			</thead>
+			<tbody id="tableBody">
+				
+			</tbody>
+		</table>
+		<br>
+		<div class="container">
+			<div class="markup ht">HTML
+			<pre><code class="html">&lt;table border="1"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;First Name&lt;/th&gt;
+      &lt;th&gt;Last Name&lt;/th&gt;
+      &lt;th&gt;Email&lt;/th&gt;
+      &lt;th&gt;Gender&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody id="tableBody"&gt;
+				
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+			</div>
+			<div class="markup jS">JS
+				<pre><code>function ajaxRequest(){
+  var xhr = new XMLHttpRequest();
+			
+  xhr.open('GET', 'http://bptest.net/devtest/data.php', true);
+			
+  xhr.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+    var data = JSON.parse(this.response);
+    var domPayload = "";
+
+    for(var i=0; i < data.length; i++){
+      domPayload += "&lt;tr&gt;&lt;td&gt;"+data[i].firstname+
+                    "&lt;/td&gt;&lt;td&gt;"+data[i].lastname+
+                    "&lt;/td&gt;&lt;td&gt;"+data[i].email+
+                    "&lt;/td&gt;&lt;td&gt;"+data[i].gender+
+                    "&lt;/td&gt;&lt;/tr&gt;";
+    }
+    document.getElementById("tableBody").innerHTML = domPayload;
+    }
+  }	
+  xhr.send();
+}
+
+ajaxRequest();</pre></code>
+			</div>
+		</div>
+		
+		
+		<h2>Bonus</h2>
+		<span id="bonus"></span>
+		<br><br>
+		<div class="container">
+			<div class="markup ht">HTML
+				<pre><code class="html">&lt;span id="bonus"&gt;&lt;/span&gt;</code></pre>
+			</div>
+			<div class="markup jS">JS
+			<pre><code class="js">var s = "Use the shortest possible regular expression or replacement
+  method using php, ruby or javascript to put a smiley face after every word that
+  ends in a vowel in this sentence.";
+		
+s = s.replace(/\w*[aeiou]\b/g, "$&&amp;#9786;");
+		
+document.getElementById("bonus").innerHTML = s;</pre></code>
+			</div>
+		</div>
+</code></pre>
+		
+	</body>
+	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+	<script>
+		hljs.initHighlightingOnLoad();
+		//Array provided
+		var randomArray = [22, 14, 3, 4, 37, 6, 7, 81, 9, 10];
+		
+		//Fisher-Yates shuffle algorithm
+		function shuffle(array){
+			var currentIndex = array.length, temporaryValue, randomIndex;
+			
+			while (0 !== currentIndex){
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex -= 1;
+		
+				temporaryValue = array[currentIndex];
+				array[currentIndex] = array[randomIndex];
+				array[randomIndex] = temporaryValue;
+			}
+			return array;
+		}
+		
+		//Returns the mean of an array of integers
+		function meanOfASet(array){
+			var combinedValue = 0;
+			
+			for(var i=0; i < array.length; i++){
+				combinedValue += array[i];
+			}
+			
+			return (combinedValue/array.length);
+		}
+		
+		function ajaxRequest(){
+			var xhr = new XMLHttpRequest();
+			
+			xhr.open('GET', 'http://bptest.net/devtest/data.php', true);
+			
+			xhr.onreadystatechange = function(){
+				if(this.readyState == 4 && this.status == 200){
+					var data = JSON.parse(this.response);
+					var domPayload = "";
+
+					for(var i=0; i < data.length; i++){
+						domPayload += "<tr><td>"+data[i].firstname+
+										"</td><td>"+data[i].lastname+
+										"</td><td>"+data[i].email+
+										"</td><td>"+data[i].gender+
+										"</td></tr>";
+					}
+					document.getElementById("tableBody").innerHTML = domPayload;
+				}
+			}
+			
+			xhr.send();
+		}
+		
+		document.getElementById("randButton").addEventListener("click", function(){
+			var displayString = "";
+			var randArr = shuffle(randomArray);
+			
+			for(var i=0; i < randArr.length; i++){
+				if(i<(randArr.length-1)){
+					displayString += randArr[i].toString() + ", ";
+				}else{
+					displayString += randArr[i].toString();
+				}
+			}
+			document.getElementById("randNumSet").innerHTML = displayString;
+		});
+		
+		document.getElementById("mean").innerHTML = meanOfASet(randomArray);
+		
+		ajaxRequest();
+		
+		var s = "Use the shortest possible regular expression or replacement method using php, ruby or javascript to put a smiley face after every word that ends in a vowel in this sentence.";
+		
+		s = s.replace(/\w*[aeiou]\b/g, "$&&#9786;");
+		
+		document.getElementById("bonus").innerHTML = s;
+	</script>
+</html>
